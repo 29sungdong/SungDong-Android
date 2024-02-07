@@ -5,7 +5,7 @@ plugins {
 
 android {
     namespace = "com.example.sungdongwalk"
-    compileSdk = 33
+    compileSdk = 34
 
     defaultConfig {
         applicationId = "com.example.sungdongwalk"
@@ -67,5 +67,11 @@ dependencies {
     debugImplementation("androidx.compose.ui:ui-tooling")
     debugImplementation("androidx.compose.ui:ui-test-manifest")
 
+    // lifecycle
     implementation("androidx.lifecycle:lifecycle-runtime-ktx:2.4.0")
+    // viewmodel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-compose:2.7.0")
+    // navigation
+    implementation("androidx.navigation:navigation-compose:2.4.0-alpha10")
+    implementation(kotlin("reflect"))
 }
