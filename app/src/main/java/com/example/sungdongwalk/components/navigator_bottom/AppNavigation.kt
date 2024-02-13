@@ -1,4 +1,4 @@
-package com.example.sungdongwalk.navigation
+package com.example.sungdongwalk.components.navigator_bottom
 
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -11,7 +11,6 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
@@ -22,6 +21,8 @@ import androidx.navigation.compose.rememberNavController
 import com.example.sungdongwalk.screens.HomeScreen
 import com.example.sungdongwalk.screens.EventScreen
 import com.example.sungdongwalk.screens.WalkScreen
+import com.example.sungdongwalk.ui.theme.Gray500
+import com.example.sungdongwalk.ui.theme.SDblack
 import com.example.sungdongwalk.ui.theme.SDwhite
 import com.example.sungdongwalk.ui.theme.Typography
 
@@ -38,7 +39,7 @@ fun AppNavigation(){
                 val navBackStackEntry by navController.currentBackStackEntryAsState()
                 val currentDestination = navBackStackEntry?.destination
 
-                listOfNavItems.forEach{navItem ->
+                listOfNavItems.forEach{ navItem ->
                     NavigationBarItem(
                         label = {
                             Text(
@@ -47,11 +48,11 @@ fun AppNavigation(){
                             )
                         },
                         colors = NavigationBarItemDefaults.colors(
-                            selectedIconColor = Color.Black,
-                            selectedTextColor = Color.Black,
-                            unselectedIconColor = Color.Gray,
-                            unselectedTextColor = Color.Gray,
-                            indicatorColor = Color.White
+                            selectedIconColor = SDblack,
+                            selectedTextColor = SDblack,
+                            unselectedIconColor = Gray500,
+                            unselectedTextColor = Gray500,
+                            indicatorColor = SDwhite
                         ),
                         selected = currentDestination?.hierarchy?.any{it.route == navItem.route} == true,
                         onClick = {

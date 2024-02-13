@@ -1,10 +1,5 @@
-package com.example.sungdongwalk.navigation
+package com.example.sungdongwalk.components.navigator_bottom
 
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.DateRange
-import androidx.compose.material.icons.filled.Face
-import androidx.compose.ui.graphics.painter.Painter
-import androidx.compose.ui.res.painterResource
 import com.example.sungdongwalk.R
 
 data class NavItems(

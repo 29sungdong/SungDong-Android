@@ -19,62 +19,62 @@ val suit = FontFamily(
 val Typography = Typography(
     headlineLarge = TextStyle(
         fontFamily = suit,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight(700),
         fontSize = 24.sp,
     ),
     headlineMedium = TextStyle(
         fontFamily = suit,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight(500),
         fontSize = 24.sp,
     ),
     headlineSmall = TextStyle(
         fontFamily = suit,
-        fontWeight = FontWeight.SemiBold,
+        fontWeight = FontWeight(700),
         fontSize = 20.sp,
     ),
     titleLarge = TextStyle(
         fontFamily = suit,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight(700),
         fontSize = 18.sp,
     ),
     titleMedium = TextStyle(
         fontFamily = suit,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight(500),
         fontSize = 18.sp,
     ),
     labelLarge = TextStyle(
         fontFamily = suit,
-        fontWeight = FontWeight.SemiBold,
+        fontWeight = FontWeight(600),
         fontSize = 16.sp,
     ),
     labelMedium = TextStyle(
         fontFamily = suit,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight(500),
         fontSize = 16.sp,
     ),
     bodyLarge = TextStyle(
         fontFamily = suit,
-        fontWeight = FontWeight.Bold,
+        fontWeight = FontWeight(700),
         fontSize = 14.sp,
     ),
     bodyMedium = TextStyle(
         fontFamily = suit,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight(500),
         fontSize = 14.sp,
     ),
     bodySmall = TextStyle(
         fontFamily = suit,
-        fontWeight = FontWeight.Normal,
+        fontWeight = FontWeight(400),
         fontSize = 14.sp,
     ),
     displayLarge = TextStyle(
         fontFamily = suit,
-        fontWeight = FontWeight.SemiBold,
+        fontWeight = FontWeight(600),
         fontSize = 12.sp,
     ),
     displayMedium = TextStyle(
         fontFamily = suit,
-        fontWeight = FontWeight.Medium,
+        fontWeight = FontWeight(500),
         fontSize = 12.sp,
     )
     /* Other default text styles to override
