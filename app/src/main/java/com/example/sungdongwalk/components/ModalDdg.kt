@@ -66,11 +66,10 @@ fun ModalDdg(
             )
             Row (
                 modifier = Modifier.align(CenterHorizontally),
-                horizontalArrangement = Arrangement.SpaceBetween,
+                horizontalArrangement = Arrangement.SpaceEvenly,
             ){
                 Button(
                     modifier = Modifier
-                        .fillMaxWidth(0.38f)
                         .padding(5.dp),
                     onClick = confirmOnClick,
                     colors = ButtonDefaults.buttonColors(
@@ -86,7 +85,6 @@ fun ModalDdg(
                 }
                 Button(
                     modifier = Modifier
-                        .fillMaxWidth(0.6f)
                         .padding(5.dp),
                     onClick = cancelOnClick,
                     colors = ButtonDefaults.buttonColors(

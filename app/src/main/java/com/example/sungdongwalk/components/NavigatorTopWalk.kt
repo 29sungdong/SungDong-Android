@@ -26,7 +26,6 @@ import com.example.sungdongwalk.ui.theme.Typography
 enum class NavigatorTopWalkType {
     WALK, ARRIVE, MAP
 }
-@Preview(showBackground = true)
 @Composable
 fun NavigatorTopWalk(type: NavigatorTopWalkType, destination: String){
     Card(

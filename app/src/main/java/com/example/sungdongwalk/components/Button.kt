@@ -37,7 +37,7 @@ fun Button(
         contentPadding = PaddingValues(20.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = 20.dp)
+            .padding(horizontal = if(buttonSize==ButtonSize.MAXWIDTH)0.dp else 20.dp)
     ) {
         Text(
             text = buttonText,
