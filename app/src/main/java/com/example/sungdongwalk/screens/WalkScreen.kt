@@ -1,18 +1,11 @@
 package com.example.sungdongwalk.screens
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Modifier
+import com.example.sungdongwalk.components.NavigatorTopSearch
+import com.example.sungdongwalk.components.map.MapView
 
 @Composable
-fun WalkScreen(){
-    Box(modifier = Modifier
-        .fillMaxSize()
-    ){
-        Text(
-            text = "WalkScreen"
-        )
-    }
+fun WalkScreen() {
+    MapView()
+    NavigatorTopSearch()
 }

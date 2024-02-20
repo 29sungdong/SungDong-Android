@@ -60,6 +60,7 @@ dependencies {
     implementation("androidx.compose.ui:ui-tooling-preview")
     implementation("androidx.compose.ui:ui-util")
     implementation("androidx.compose.material3:material3")
+    implementation(files("libs\\com.skt.Tmap_1.75.jar"))
     testImplementation("junit:junit:4.13.2")
     androidTestImplementation("androidx.test.ext:junit:1.1.5")
     androidTestImplementation("androidx.test.espresso:espresso-core:3.5.1")
@@ -84,4 +85,12 @@ dependencies {
     // pager
     implementation ("com.google.accompanist:accompanist-pager:0.20.1")
     implementation ("com.google.accompanist:accompanist-pager-indicators:0.20.1")
+    // Google Play Service의 Location API
+    implementation ("com.google.android.gms:play-services-location:16.0.0")
+    // 네이버 지도 SDK
+    implementation ("com.naver.maps:map-sdk:3.17.0")
+    // 네이버 지도 Compose
+    implementation ("io.github.fornewid:naver-map-compose:1.6.0")
+//    implementation ("io.github.fornewid:naver-map-location:21.0.1")
+
 }

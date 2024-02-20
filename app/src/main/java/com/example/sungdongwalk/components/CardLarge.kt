@@ -4,25 +4,19 @@ import android.net.Uri
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
-import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentHeight
-import androidx.compose.foundation.pager.PageSize
 import androidx.compose.foundation.pager.PagerState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.CardElevation
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -33,7 +27,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import coil.compose.rememberImagePainter
@@ -80,7 +73,8 @@ fun CardLarge(
             painter = rememberImagePainter(data = Uri.parse(placeVo.image)),
             contentDescription = null,
             modifier = Modifier
-                .fillMaxWidth(),
+                .fillMaxWidth()
+                .height(190.dp),
             contentScale = ContentScale.FillWidth
         )
         Row(
@@ -156,7 +150,7 @@ fun CardLarge(
                     tint= Gray500
                 )
                 Text(
-                    text=placeVo.tel,
+                    text= placeVo.tel.ifBlank { "-" },
                     style= Typography.bodyMedium
                 )
             }
@@ -164,17 +158,10 @@ fun CardLarge(
         Button(
             buttonSize = ButtonSize.MAXWIDTH,
             buttonText = "산책 시작하기",
-            buttonOnClick = {/*산책 시작 화면으로 navigate*/}
+            buttonOnClick = {
+
+            }
         )
 
-    }
-}
-@OptIn(ExperimentalFoundationApi::class)
-private val threePagesPerViewport = object : PageSize {
-    override fun Density.calculateMainAxisPageSize(
-        availableSpace: Int,
-        pageSpacing: Int
-    ): Int {
-        return (availableSpace - 2 * pageSpacing) / 3
     }
 }

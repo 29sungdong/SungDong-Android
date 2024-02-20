@@ -18,8 +18,8 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
-import com.example.sungdongwalk.screens.HomeScreen
 import com.example.sungdongwalk.screens.EventScreen
+import com.example.sungdongwalk.screens.HomeScreen
 import com.example.sungdongwalk.screens.WalkScreen
 import com.example.sungdongwalk.ui.theme.Gray500
 import com.example.sungdongwalk.ui.theme.SDblack
@@ -75,7 +75,7 @@ fun AppNavigation(){
     ){ paddingValue ->
         NavHost(
             navController = navController,
-            startDestination = Screens.HomeScreen.name,
+            startDestination = Screens.WalkScreen.name,
             modifier = Modifier
                 .padding(paddingValue)
         ){
