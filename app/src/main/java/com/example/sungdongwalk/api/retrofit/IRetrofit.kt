@@ -1,12 +1,6 @@
 package com.example.sungdongwalk.api.retrofit
 
 import com.example.sungdongwalk.api.Category
-import retrofit2.Response
-import retrofit2.http.Body
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
-import retrofit2.http.Query
 import com.example.sungdongwalk.api.Dto.*
 import com.example.sungdongwalk.api.utils.API.EVENTS
 import com.example.sungdongwalk.api.utils.API.MISSIONS
@@ -15,7 +9,6 @@ import com.example.sungdongwalk.api.utils.API.PLACES
 import com.example.sungdongwalk.api.utils.API.PLACES_ID
 import com.example.sungdongwalk.api.utils.API.PLACES_MARKER
 import com.example.sungdongwalk.api.utils.API.PLACES_SEARCH
-import com.example.sungdongwalk.api.utils.API.PLACES_WALK
 import com.example.sungdongwalk.api.utils.API.SUB_PLACES
 import com.example.sungdongwalk.api.utils.API.USER_BADGES
 import com.example.sungdongwalk.api.utils.API.USER_LOGIN
@@ -23,7 +16,15 @@ import com.example.sungdongwalk.api.utils.API.USER_NICKNAME
 import com.example.sungdongwalk.api.utils.API.USER_PLACES
 import com.example.sungdongwalk.api.utils.API.USER_SIGNUP
 import com.example.sungdongwalk.api.utils.API.USER_STATS
+import com.example.sungdongwalk.api.utils.API.WALK
+import com.example.sungdongwalk.api.utils.API.WALK_SHORTEST
+import retrofit2.Response
+import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.PATCH
+import retrofit2.http.POST
+import retrofit2.http.Path
+import retrofit2.http.Query
 
 interface IRetrofit {
     // User
@@ -78,8 +79,20 @@ interface IRetrofit {
         @Query("keyword") keyword : String,
     ): Response<MarkerListResponseDTO>
     // Walk
-    @GET(PLACES_WALK)
-    suspend fun getPlaceWalk(
+    @GET(WALK)
+    suspend fun getWalkPath(
+        @Path("placeId") placeId: Int,
+        @Query("xCoordinate") xCoordinate: String,
+        @Query("yCoordinate") yCoordinate: String,
+    ): Response<WalkPathsResponseDTO>
+    @GET(WALK_SHORTEST)
+    suspend fun getShortestWalkPath(
+        @Path("placeId") placeId: Int,
+        @Query("xCoordinate") xCoordinate: String,
+        @Query("yCoordinate") yCoordinate: String,
+    ): Response<ShortestPathResponseDTO>
+    @POST(WALK)
+    suspend fun postWalkRecord(
         @Path("placeId") placeId: Int,
     ): Response<Any>
     // Mission

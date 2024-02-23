@@ -9,8 +9,8 @@ import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.example.sungdongwalk.activities.navigation.Nav
 import com.example.sungdongwalk.api.retrofit.RetrofitManager
-import com.example.sungdongwalk.components.navigator_bottom.AppNavigation
 import com.example.sungdongwalk.location.LocationManager
 import com.example.sungdongwalk.ui.theme.SungdongWalkTheme
 import com.example.sungdongwalk.viewmodels.LocationViewModel
@@ -20,7 +20,6 @@ import com.naver.maps.map.util.FusedLocationSource
 import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
-
     companion object{
         lateinit var locationSource: FusedLocationSource
     }
@@ -34,17 +33,18 @@ class MainActivity : ComponentActivity() {
         locationSource = FusedLocationSource(this, LOCATION_REQUEST_CODE)
         locationManager = LocationManager(fusedLocationProviderClient)
 
+
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED){
                 launch {
                     LocationViewModel.instance.location.collect{
                         RetrofitManager.instance.getPlaces(
-                            it.first,
-                            it.second
+                            it.longitude.toString(),
+                            it.latitude.toString()
                         )
                         RetrofitManager.instance.getPlacesMarker(
-                            it.first,
-                            it.second,
+                            it.longitude.toString(),
+                            it.latitude.toString(),
                             10
                         )
                     }
@@ -53,7 +53,25 @@ class MainActivity : ComponentActivity() {
         }
         setContent {
             SungdongWalkTheme {
-                AppNavigation()
+                Nav()
+//                ModalDdg(
+//                    modalText = "필수 권한을 허용해주세요",
+//                    confirmText = "허용하기",
+//                    cancelText = "나가기",
+//                    confirmOnClick = {
+//                        ActivityCompat.requestPermissions(this,
+//                            arrayOf(
+//                                Manifest.permission.ACCESS_FINE_LOCATION,
+//                                Manifest.permission.ACCESS_COARSE_LOCATION,
+//                                Manifest.permission.INTERNET,
+//                                Manifest.permission.READ_EXTERNAL_STORAGE
+//                            ),
+//                            LOCATION_REQUEST_CODE
+//                        )
+//                    },
+//                    cancelOnClick = {finishAffinity()},
+//                    resourceId = R.drawable.ddg_with_map
+//                )
             }
         }
     }

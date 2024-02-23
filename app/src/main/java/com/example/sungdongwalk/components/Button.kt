@@ -7,10 +7,8 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.sungdongwalk.ui.theme.Gray500
 import com.example.sungdongwalk.ui.theme.SDblue
@@ -24,7 +22,7 @@ enum class ButtonSize{
 fun Button(
     buttonSize: ButtonSize,
     buttonText: String,
-    buttonOnClick: () -> Unit
+    buttonOnClick:  ()  -> Unit
 ){
     Button(
         onClick = buttonOnClick,
@@ -37,7 +35,7 @@ fun Button(
         contentPadding = PaddingValues(20.dp),
         modifier = Modifier
             .fillMaxWidth()
-            .padding(horizontal = if(buttonSize==ButtonSize.MAXWIDTH)0.dp else 20.dp)
+            .padding(horizontal = if (buttonSize == ButtonSize.MAXWIDTH) 0.dp else 20.dp)
     ) {
         Text(
             text = buttonText,

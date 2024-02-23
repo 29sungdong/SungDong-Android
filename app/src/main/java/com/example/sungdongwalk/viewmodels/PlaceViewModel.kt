@@ -28,7 +28,6 @@ class PlaceViewModel: ViewModel(){
     fun updateMarkers(newMarkers: List<Dto.MarkerVo>){
         viewModelScope.launch {
             _markers.emit(newMarkers)
-            println(newMarkers)
         }
     }
 }

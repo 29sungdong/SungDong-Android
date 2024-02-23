@@ -5,6 +5,7 @@ import android.util.Log
 import com.example.sungdongwalk.api.Dto
 import com.example.sungdongwalk.api.utils.API.BASE_URL
 import com.example.sungdongwalk.viewmodels.PlaceViewModel
+import com.example.sungdongwalk.viewmodels.WalkViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.async
@@ -14,7 +15,7 @@ class RetrofitManager {
 
     companion object{
         val instance = RetrofitManager()
-        val TAG = "Exception"
+        val TAG = "Request_Error"
     }
 
     // 레트로핏 인터페이스 가져오기
@@ -79,9 +80,59 @@ class RetrofitManager {
                     val markers = response.body()?.markers ?: listOf()
                     PlaceViewModel.instance.updateMarkers(markers)
                 }
-                else -> {}
+                else -> {
+
+                }
             }
         }catch (e:Exception){
+            Log.d(TAG, e.toString())
+        }
+    }
+    fun getShortestPath(
+        placeId: Int,
+        xCoordinate: String,
+        yCoordinate: String,
+    ) = CoroutineScope(IO).launch{
+        try{
+            val request = CoroutineScope(IO).async { iRetrofit?.getShortestWalkPath(placeId, xCoordinate,yCoordinate) }
+            val response = request.await()
+            when(response?.code()){
+                200 -> {
+                    val paths = response.body()
+                    if (paths != null) {
+                        WalkViewModel.instance.updateShortestPath(paths)
+                    }
+                }
+                else -> {
+                    Log.d(TAG, response?.code().toString())
+                }
+            }
+        } catch (e: Exception){
+            Log.d(TAG, e.toString())
+        }
+    }
+    // MapView, NavigatorTopSearch
+    fun getPaths(
+        placeId: Int,
+        placeName: String,
+        placeImg: String,
+        xCoordinate: String,
+        yCoordinate: String,
+    ) = CoroutineScope(IO).launch{
+        try{
+            val request = CoroutineScope(IO).async { iRetrofit?.getWalkPath(placeId, xCoordinate,yCoordinate) }
+            val response = request.await()
+            when(response?.code()){
+                200 -> {
+                    val paths = response.body()?.paths ?: listOf()
+                    WalkViewModel.instance.updatePath(paths)
+                    WalkViewModel.instance.updateDestination(placeId.toString(), placeName, placeImg)
+                }
+                else -> {
+                    Log.d(TAG, response?.code().toString())
+                }
+            }
+        } catch (e: Exception){
             Log.d(TAG, e.toString())
         }
     }

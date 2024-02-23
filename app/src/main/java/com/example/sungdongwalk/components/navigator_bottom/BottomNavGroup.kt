@@ -10,17 +10,21 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
+import androidx.navigation.NavController
 import androidx.navigation.NavDestination.Companion.hierarchy
 import androidx.navigation.NavGraph.Companion.findStartDestination
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import com.example.sungdongwalk.components.DimLoading
 import com.example.sungdongwalk.screens.EventScreen
 import com.example.sungdongwalk.screens.HomeScreen
-import com.example.sungdongwalk.screens.WalkScreen
+import com.example.sungdongwalk.screens.MapScreen
 import com.example.sungdongwalk.ui.theme.Gray500
 import com.example.sungdongwalk.ui.theme.SDblack
 import com.example.sungdongwalk.ui.theme.SDwhite
@@ -28,15 +32,15 @@ import com.example.sungdongwalk.ui.theme.Typography
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun AppNavigation(){
-    val navController = rememberNavController()
+fun BottomNav(navController: NavController){
+    val bottomNavController = rememberNavController()
 
     Scaffold(
         bottomBar = {
             NavigationBar(
                 containerColor = SDwhite
             ) {
-                val navBackStackEntry by navController.currentBackStackEntryAsState()
+                val navBackStackEntry by bottomNavController.currentBackStackEntryAsState()
                 val currentDestination = navBackStackEntry?.destination
 
                 listOfNavItems.forEach{ navItem ->
@@ -56,8 +60,8 @@ fun AppNavigation(){
                         ),
                         selected = currentDestination?.hierarchy?.any{it.route == navItem.route} == true,
                         onClick = {
-                                  navController.navigate(navItem.route){
-                                      popUpTo(navController.graph.findStartDestination().id){
+                                  bottomNavController.navigate(navItem.route){
+                                      popUpTo(bottomNavController.graph.findStartDestination().id){
                                           saveState = true
                                       }
                                       launchSingleTop = true
@@ -73,21 +77,26 @@ fun AppNavigation(){
             }
         }
     ){ paddingValue ->
+        val (isLoading, setIsLoading) = remember{
+            mutableStateOf(false)
+        }
         NavHost(
-            navController = navController,
-            startDestination = Screens.WalkScreen.name,
+            navController = bottomNavController,
+            startDestination = BottomNavScreens.HomeScreen.name,
             modifier = Modifier
                 .padding(paddingValue)
         ){
-            composable(route = Screens.HomeScreen.name){
-                HomeScreen()
+            composable(route = BottomNavScreens.HomeScreen.name){
+                HomeScreen(setIsLoading)
             }
-            composable(route = Screens.WalkScreen.name){
-                WalkScreen()
+            composable(route = BottomNavScreens.MapScreen.name){
+                MapScreen(setIsLoading)
             }
-            composable(route = Screens.EventScreen.name){
-                EventScreen()
+            composable(route = BottomNavScreens.EventScreen.name){
+                EventScreen(navController)
             }
-    }
+        }
+        if(isLoading)
+            DimLoading()
     }
 }

@@ -19,12 +19,15 @@ import androidx.compose.foundation.pager.rememberPagerState
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.sungdongwalk.R
+import com.example.sungdongwalk.api.Dto
 import com.example.sungdongwalk.components.CardLarge
 import com.example.sungdongwalk.components.NavigatorTop
 import com.example.sungdongwalk.components.NavigatorTopType
@@ -32,12 +35,22 @@ import com.example.sungdongwalk.ui.theme.Gray500
 import com.example.sungdongwalk.ui.theme.SDwhite
 import com.example.sungdongwalk.ui.theme.Typography
 import com.example.sungdongwalk.viewmodels.PlaceViewModel
+import kotlinx.coroutines.launch
 
 @SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalFoundationApi::class)
-@Preview(showBackground = true)
 @Composable
-fun HomeScreen(){
+fun HomeScreen(setIsLoading: (Boolean)->Unit) {
+    val (places, setPlaces) = remember{
+        mutableStateOf(listOf<Dto.SimplePlaceVo>())
+    }
+    rememberCoroutineScope().launch {
+        PlaceViewModel.instance.places.collect(){
+            if(it.isNotEmpty()) {
+                setPlaces(it)
+            }
+        }
+    }
     Column(
         modifier = Modifier
             .fillMaxSize()
@@ -84,7 +97,7 @@ fun HomeScreen(){
                 .size(60.dp))
         val pagerState = rememberPagerState(
             pageCount = {
-                PlaceViewModel.instance.places.value.size
+                places.size
             }
         )
 
@@ -99,9 +112,10 @@ fun HomeScreen(){
             modifier = Modifier.align(Alignment.CenterHorizontally)
         ){index->
             CardLarge(
-                PlaceViewModel.instance.places.value[index],
+                places[index],
                 pagerState,
-                index
+                index,
+                setIsLoading
             )
 
         }

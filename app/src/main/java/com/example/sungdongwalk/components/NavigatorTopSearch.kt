@@ -27,25 +27,22 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.lifecycle.LifecycleOwner
 import com.example.sungdongwalk.R
 import com.example.sungdongwalk.api.Dto
+import com.example.sungdongwalk.api.retrofit.RetrofitManager
 import com.example.sungdongwalk.ui.theme.DimLight
 import com.example.sungdongwalk.ui.theme.Gray600
 import com.example.sungdongwalk.ui.theme.SDblue
 import com.example.sungdongwalk.ui.theme.SDwhite
 import com.example.sungdongwalk.ui.theme.Typography
-import com.example.sungdongwalk.viewmodels.SearchViewModel
-import kotlinx.coroutines.coroutineScope
+import com.example.sungdongwalk.viewmodels.LocationViewModel
 
 
 @OptIn(ExperimentalComposeUiApi::class)
 @SuppressLint("StateFlowValueCalledInComposition")
-@Preview(showBackground = true)
 @Composable 
-fun NavigatorTopSearch(){
+fun NavigatorTopSearch(setIsLoading: (Boolean)-> Unit){
     val (text, setText) = remember{
         mutableStateOf("")
     }
@@ -56,7 +53,7 @@ fun NavigatorTopSearch(){
     Column(
         modifier = Modifier
             .fillMaxSize()
-            .background(if(results.isNotEmpty()) DimLight else Color.Transparent)
+            .background(if (results.isNotEmpty()) DimLight else Color.Transparent)
     ){
         Card(
             modifier = Modifier
@@ -65,7 +62,7 @@ fun NavigatorTopSearch(){
             shape = RoundedCornerShape(topStart = 0.dp, topEnd = 0.dp, bottomStart = 6.dp, bottomEnd = 6.dp),
             colors = CardDefaults.cardColors(
                 containerColor = SDwhite,
-            ),
+            )
         ) {
             Row(
                 modifier = Modifier
@@ -97,16 +94,34 @@ fun NavigatorTopSearch(){
                     .fillMaxWidth()
             ){
                 items(results.size){ idx ->
-                    Text(
-                        text= results[idx].name,
-                        style = Typography.labelMedium,
-                        color = Gray600,
+                    Column(
                         modifier = Modifier
-                            .padding(top=20.dp, bottom=20.dp, start=60.dp, end=20.dp)
+                            .fillMaxWidth()
                             .clickable {
-                                // 산책 시작
+                                keyboardController?.hide()
+                                setIsLoading(true)
+                                RetrofitManager.instance.getShortestPath(
+                                    placeId = results[idx].id,
+                                    xCoordinate = LocationViewModel.instance.location.value.longitude.toString(),
+                                    yCoordinate = LocationViewModel.instance.location.value.latitude.toString(),
+                                )
+                                RetrofitManager.instance.getPaths(
+                                    placeId = results[idx].id,
+                                    placeName = results[idx].name,
+                                    placeImg = "",//results[idx].image,
+                                    xCoordinate = LocationViewModel.instance.location.value.longitude.toString(),
+                                    yCoordinate = LocationViewModel.instance.location.value.latitude.toString(),
+                                )
                             }
-                    )
+                    ) {
+                        Text(
+                            text= results[idx].name,
+                            style = Typography.labelMedium,
+                            color = Gray600,
+                            modifier = Modifier
+                                .padding(top = 20.dp, bottom = 20.dp, start = 60.dp, end = 20.dp)
+                        )
+                    }
                 }
             }
 

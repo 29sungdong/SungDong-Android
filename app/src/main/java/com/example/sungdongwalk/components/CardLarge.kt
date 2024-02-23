@@ -20,23 +20,25 @@ import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.util.lerp
 import coil.compose.rememberImagePainter
 import com.example.sungdongwalk.R
 import com.example.sungdongwalk.api.Dto.SimplePlaceVo
+import com.example.sungdongwalk.api.retrofit.RetrofitManager
 import com.example.sungdongwalk.ui.theme.Gray300
 import com.example.sungdongwalk.ui.theme.Gray500
 import com.example.sungdongwalk.ui.theme.SDgreen
 import com.example.sungdongwalk.ui.theme.SDwhite
 import com.example.sungdongwalk.ui.theme.Typography
+import com.example.sungdongwalk.viewmodels.LocationViewModel
 import kotlin.math.absoluteValue
 
 @OptIn(ExperimentalFoundationApi::class)
@@ -44,7 +46,8 @@ import kotlin.math.absoluteValue
 fun CardLarge(
     placeVo: SimplePlaceVo,
     pagerState: PagerState,
-    index: Int
+    index: Int,
+    setIsLoading: (Boolean) -> Unit
 ){
     Card(
         shape = RoundedCornerShape(16.dp),
@@ -113,13 +116,14 @@ fun CardLarge(
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement.SpaceEvenly
+            horizontalArrangement = Arrangement.Center
         ) {
             Column(
                 modifier = Modifier
                     .padding(vertical = 20.dp)
+                    .fillMaxWidth(0.5f)
                     .clickable { },
-                horizontalAlignment = Alignment.CenterHorizontally
+                horizontalAlignment = CenterHorizontally
             ) {
                 Icon(
                     painter = painterResource(id = R.drawable.ic_clock),
@@ -128,7 +132,9 @@ fun CardLarge(
                 )
                 Text(
                     text="${placeVo.openingTime}-${placeVo.closingTime}",
-                    style= Typography.bodyMedium
+                    style= Typography.bodyMedium,
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center
                 )
             }
             Spacer(
@@ -151,7 +157,9 @@ fun CardLarge(
                 )
                 Text(
                     text= placeVo.tel.ifBlank { "-" },
-                    style= Typography.bodyMedium
+                    style= Typography.bodyMedium,
+                    modifier = Modifier.fillMaxWidth(),
+                    textAlign = TextAlign.Center
                 )
             }
         }
@@ -159,7 +167,19 @@ fun CardLarge(
             buttonSize = ButtonSize.MAXWIDTH,
             buttonText = "산책 시작하기",
             buttonOnClick = {
-
+                setIsLoading(true)
+                RetrofitManager.instance.getShortestPath(
+                    placeId = placeVo.id,
+                    xCoordinate = LocationViewModel.instance.location.value.longitude.toString(),
+                    yCoordinate = LocationViewModel.instance.location.value.latitude.toString(),
+                )
+                RetrofitManager.instance.getPaths(
+                    placeId = placeVo.id,
+                    placeName = placeVo.name,
+                    placeImg = placeVo.image,
+                    xCoordinate = LocationViewModel.instance.location.value.longitude.toString(),
+                    yCoordinate = LocationViewModel.instance.location.value.latitude.toString(),
+                )
             }
         )
 

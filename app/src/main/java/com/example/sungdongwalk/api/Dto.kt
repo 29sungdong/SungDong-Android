@@ -86,6 +86,23 @@ class Dto {
         val xcoordinate: String,
         val ycoordinate: String,
     )
+    data class WalkPathResponseDTO(
+        val id: Int,
+        val name: String,
+        val totalDistance: Int,
+        val totalTime: Int,
+        val coordinates: List<List<Double>>,
+        val xcoordinate: Double,
+        val ycoordinate: Double
+    )
+    data class WalkPathsResponseDTO(
+        val paths : List<WalkPathResponseDTO>
+    )
+    data class ShortestPathResponseDTO(
+        val totalDistance: Int,
+        val totalTime: Int,
+        val coordinates: List<List<Double>>
+    )
     data class MissionResponseDTO(
         val id: Int,
         val content: String

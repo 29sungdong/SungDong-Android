@@ -2,26 +2,26 @@ package com.example.sungdongwalk.components.navigator_bottom
 
 import com.example.sungdongwalk.R
 
-data class NavItems(
+data class BottomNavItems(
     val label: String,
     val icon: Int,
     val route: String
 )
 
 val listOfNavItems = listOf(
-    NavItems(
+    BottomNavItems(
         label = "홈",
         icon = R.drawable.ic_home,
-        route = Screens.HomeScreen.name
+        route = BottomNavScreens.HomeScreen.name
     ),
-    NavItems(
+    BottomNavItems(
         label = "산책",
         icon = R.drawable.ic_foot,
-        route = Screens.WalkScreen.name
+        route = BottomNavScreens.MapScreen.name
     ),
-    NavItems(
+    BottomNavItems(
         label = "행사",
         icon = R.drawable.ic_calendar,
-        route = Screens.EventScreen.name
+        route = BottomNavScreens.EventScreen.name
     ),
 )
