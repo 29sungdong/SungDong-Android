@@ -65,7 +65,7 @@ fun ButtonBoarder(
                 modifier = Modifier.padding(horizontal = 5.dp)
             )
             Text(
-                text = "${totalTime/60}시간 ${totalTime%60}분",
+                text = "${totalTime/3600}시간 ${totalTime/60%60}분",
                 color = if(selectedId == id) SDblue else Gray500,
                 style = Typography.headlineLarge,
                 modifier = Modifier.padding(5.dp)

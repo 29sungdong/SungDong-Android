@@ -65,7 +65,7 @@ fun MapView(setIsLoading: (Boolean)-> Unit){
                 RetrofitManager.instance.getPaths(
                     placeId = place.id,
                     placeName = place.name,
-                    placeImg = "",//place.image,
+                    placeImg = place.image,
                     xCoordinate = LocationViewModel.instance.location.value.longitude.toString(),
                     yCoordinate = LocationViewModel.instance.location.value.latitude.toString(),
                 )

@@ -80,6 +80,7 @@ class Dto {
     data class MarkerVo(
         val id: Int,
         val name: String,
+        val image: String,
         val openingTime: String,
         val closingTime: String,
         val hasEvent: Boolean,

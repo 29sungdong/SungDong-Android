@@ -108,7 +108,7 @@ fun NavigatorTopSearch(setIsLoading: (Boolean)-> Unit){
                                 RetrofitManager.instance.getPaths(
                                     placeId = results[idx].id,
                                     placeName = results[idx].name,
-                                    placeImg = "",//results[idx].image,
+                                    placeImg = results[idx].image,
                                     xCoordinate = LocationViewModel.instance.location.value.longitude.toString(),
                                     yCoordinate = LocationViewModel.instance.location.value.latitude.toString(),
                                 )

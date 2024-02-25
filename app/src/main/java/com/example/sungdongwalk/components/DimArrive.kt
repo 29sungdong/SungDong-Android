@@ -112,7 +112,7 @@ fun DimArrive(
                     style = Typography.labelLarge,
                     textAlign = TextAlign.Center,
                     modifier = Modifier
-                        .padding(15.dp)
+                        .padding(10.dp)
                 )
             }
         }

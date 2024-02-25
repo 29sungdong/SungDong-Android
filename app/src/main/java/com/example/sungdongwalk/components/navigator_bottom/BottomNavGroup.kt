@@ -93,7 +93,7 @@ fun BottomNav(navController: NavController){
                 MapScreen(setIsLoading)
             }
             composable(route = BottomNavScreens.EventScreen.name){
-                EventScreen(navController)
+                EventScreen()
             }
         }
         if(isLoading)

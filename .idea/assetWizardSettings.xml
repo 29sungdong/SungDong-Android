@@ -19,8 +19,8 @@
                         <option name="values">
                           <map>
                             <entry key="assetSourceType" value="FILE" />
-                            <entry key="outputName" value="ic_particle" />
-                            <entry key="sourceFile" value="C:\Users\user\Downloads\기존 디자인 (7)\mid-fi\particle.svg" />
+                            <entry key="outputName" value="ic_previous" />
+                            <entry key="sourceFile" value="C:\Users\user\Downloads\icon_back.svg" />
                           </map>
                         </option>
                       </PersistentState>
