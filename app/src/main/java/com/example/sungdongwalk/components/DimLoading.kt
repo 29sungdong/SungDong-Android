@@ -12,10 +12,12 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import com.example.sungdongwalk.R
 import com.example.sungdongwalk.ui.theme.DimLight
+import com.example.sungdongwalk.viewmodels.WalkViewModel
 
 @Preview(showBackground = true)
 @Composable
 fun DimLoading(){
+    WalkViewModel.instance.initDestination()
     Column(
         modifier = Modifier
             .fillMaxSize()

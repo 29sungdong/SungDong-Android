@@ -1,8 +1,4 @@
 package com.example.sungdongwalk.api
-
-enum class Category{
-    EDUCATION, FARM, CULTURE, EXHIBITION, VOLUNTEER, PARK, FOREST
-}
 class Dto {
     data class UserRequestDTO(
         val username: String,
@@ -117,6 +113,13 @@ class Dto {
         val name: String,
         val endDate: String,
         val url: String
+    )
+    data class CalenderVo(
+        val date: String,
+        val events: List<SimpleEventVo>
+    )
+    data class CalenderResponseDTO(
+        val data: List<CalenderVo>
     )
     data class EventListResponseDTO(
         val events: List<SimpleEventVo>

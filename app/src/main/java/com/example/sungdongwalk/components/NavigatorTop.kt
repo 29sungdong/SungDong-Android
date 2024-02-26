@@ -31,7 +31,7 @@ fun NavigatorTop(type: NavigatorTopType){
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(12.dp)
+            .padding(22.dp)
             .background(color = SDwhite),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically

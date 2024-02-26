@@ -55,12 +55,11 @@ fun HomeScreen(setIsLoading: (Boolean)->Unit) {
         modifier = Modifier
             .fillMaxSize()
             .background(SDwhite)
-            .padding(10.dp)
     ) {
         NavigatorTop(type = NavigatorTopType.LOGO)
         Row(
             modifier = Modifier
-                .padding(20.dp)
+                .padding(vertical = 20.dp, horizontal = 30.dp)
                 .fillMaxWidth(),
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.Top

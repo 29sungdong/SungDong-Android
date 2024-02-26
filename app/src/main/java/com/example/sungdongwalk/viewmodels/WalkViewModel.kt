@@ -20,6 +20,11 @@ class WalkViewModel: ViewModel() {
             _destination.emit(listOf(placeId, placeName, placeImg))
         }
     }
+    fun initDestination(){
+        viewModelScope.launch {
+            _destination.emit(listOf())
+        }
+    }
 
     private val _shortestPath = MutableStateFlow<Dto.ShortestPathResponseDTO?>(null)
     val shortestPath : StateFlow<Dto.ShortestPathResponseDTO?> = _shortestPath

@@ -1,5 +1,7 @@
 package com.example.sungdongwalk.activities.navigation
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.rememberCoroutineScope
 import androidx.navigation.compose.NavHost
@@ -10,6 +12,7 @@ import com.example.sungdongwalk.screens.WalkScreen
 import com.example.sungdongwalk.viewmodels.WalkViewModel
 import kotlinx.coroutines.launch
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun Nav(){
     val navController = rememberNavController()

@@ -4,6 +4,7 @@ package com.example.sungdongwalk.api.retrofit
 import android.util.Log
 import com.example.sungdongwalk.api.Dto
 import com.example.sungdongwalk.api.utils.API.BASE_URL
+import com.example.sungdongwalk.viewmodels.EventViewModel
 import com.example.sungdongwalk.viewmodels.PlaceViewModel
 import com.example.sungdongwalk.viewmodels.WalkViewModel
 import kotlinx.coroutines.CoroutineScope
@@ -133,6 +134,47 @@ class RetrofitManager {
                 }
             }
         } catch (e: Exception){
+            Log.d(TAG, e.toString())
+        }
+    }
+    fun getEvents(
+        category: String?,
+        placeId: Int?,
+        setEvents: (List<Dto.SimpleEventVo>) -> Unit
+    ) = CoroutineScope(IO).launch {
+        try{
+            val request = CoroutineScope(IO).async { iRetrofit?.getEvents(category,placeId) }
+            val response = request.await()
+            when(response?.code()){
+                200 -> {
+                    val events = response.body()?.events ?: listOf()
+                    setEvents(events)
+                }
+                else ->{
+                    Log.d(TAG, "Error Code: ${response?.code()}")
+                }
+            }
+        }catch (e: Exception){
+            Log.d(TAG, e.toString())
+        }
+    }
+    fun getEventCalender(
+        startDate: String,
+        endDate: String,
+    ) = CoroutineScope(IO).launch {
+        try{
+            val request = CoroutineScope(IO).async { iRetrofit?.getEventsCalender(startDate, endDate) }
+            val response = request.await()
+            when(response?.code()){
+                200 -> {
+                    val newEvents = response.body()?.data?.map{it.events} ?: listOf()
+                    EventViewModel.instance.updateEvents(newEvents)
+                }
+                else -> {
+
+                }
+            }
+        }catch (e: Exception){
             Log.d(TAG, e.toString())
         }
     }

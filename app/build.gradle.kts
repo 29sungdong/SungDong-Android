@@ -91,6 +91,7 @@ dependencies {
     implementation ("com.naver.maps:map-sdk:3.17.0")
     // 네이버 지도 Compose
     implementation ("io.github.fornewid:naver-map-compose:1.6.0")
-//    implementation ("io.github.fornewid:naver-map-location:21.0.1")
+    // webView
+    implementation ("com.google.accompanist:accompanist-webview:0.24.13-rc")
 
 }

@@ -109,14 +109,14 @@ fun CardLarge(
         Spacer(
             Modifier
                 .height(1.dp)
-                .fillMaxWidth(0.9f)
+                .fillMaxWidth(0.93f)
                 .align(CenterHorizontally)
                 .background(Gray300)
         )
         Row(
             modifier = Modifier
                 .fillMaxWidth(),
-            horizontalArrangement = Arrangement.Center
+            horizontalArrangement = Arrangement.SpaceEvenly,
         ) {
             Column(
                 modifier = Modifier
