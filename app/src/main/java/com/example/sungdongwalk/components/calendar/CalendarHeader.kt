@@ -15,6 +15,8 @@ import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.sungdongwalk.R
+import com.example.sungdongwalk.api.Dto
+import com.example.sungdongwalk.api.retrofit.RetrofitManager
 import com.example.sungdongwalk.ui.theme.Gray500
 import com.example.sungdongwalk.ui.theme.Typography
 import java.time.LocalDate
@@ -23,8 +25,13 @@ import java.time.LocalDate
 @Composable
 fun CalendarHeader(
     localDate: LocalDate,
-    setLocalDate: (LocalDate) -> Unit
+    setLocalDate: (LocalDate) -> Unit,
+    setEvents: (List<List<Dto.SimpleEventVo>>) -> Unit
 ){
+    RetrofitManager.instance.getEventCalendar(
+        localDate,
+        setEvents,
+        null)
     Row(
         modifier = Modifier.padding(vertical = 10.dp),
         horizontalArrangement = Arrangement.Center,
@@ -34,7 +41,13 @@ fun CalendarHeader(
             painter = painterResource(id = R.drawable.ic_prev),
             contentDescription = null,
             tint = Gray500,
-            modifier = Modifier.clickable { setLocalDate(localDate.minusMonths(1) )}
+            modifier = Modifier.clickable {
+                val newLocalDate = localDate.minusMonths(1)
+                RetrofitManager.instance.getEventCalendar(
+                    newLocalDate,
+                    setEvents,
+                    setLocalDate)
+            }
         )
         Text(
             text = "${localDate.monthValue}월",
@@ -46,7 +59,13 @@ fun CalendarHeader(
             painter = painterResource(id = R.drawable.ic_front),
             contentDescription = null,
             tint = Gray500,
-            modifier = Modifier.clickable {setLocalDate(localDate.plusMonths(1))}
+            modifier = Modifier.clickable {
+                val newLocalDate = localDate.plusMonths(1)
+                RetrofitManager.instance.getEventCalendar(
+                    newLocalDate,
+                    setEvents,
+                    setLocalDate)
+            }
         )
     }
 }

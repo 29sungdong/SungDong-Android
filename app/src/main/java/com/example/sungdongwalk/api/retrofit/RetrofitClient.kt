@@ -1,6 +1,6 @@
 package com.example.sungdongwalk.api.retrofit
 
-import com.example.sungdongwalk.api.utils.User.TOKEN
+import com.example.sungdongwalk.viewmodels.LoginViewModel
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Response
@@ -37,7 +37,7 @@ object RetrofitClient {
         @Throws(IOException::class)
         override fun intercept(chain: Interceptor.Chain) : Response = with(chain) {
             val newRequest = request().newBuilder()
-                .addHeader("Authorization", "Bearer ${TOKEN}")
+                .addHeader("Authorization", "Bearer ${LoginViewModel.instance.token.value}")
                 .build()
             proceed(newRequest)
         }

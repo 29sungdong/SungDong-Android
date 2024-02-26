@@ -27,7 +27,8 @@ import com.example.sungdongwalk.ui.theme.Gray700
 import com.example.sungdongwalk.ui.theme.SDblue
 import com.example.sungdongwalk.ui.theme.SDwhite
 import com.example.sungdongwalk.ui.theme.Typography
-import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 enum class DayEventType{
     NO_EVENT, HAS_EVENT, FIN_EVENT
@@ -35,16 +36,15 @@ enum class DayEventType{
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun CalendarDay(
-    localDate: LocalDate,
     day: Int,
-    events: List<Dto.SimpleEventVo>,
+    events: List<List<Dto.SimpleEventVo>>,
     setIsShow: (Boolean) -> Unit,
     setSelectedDay: (Int) -> Unit
 ){
-    val dayEventType =
-        if(day==0 || events.isEmpty()) DayEventType.NO_EVENT
-        else if(day < localDate.dayOfMonth) DayEventType.FIN_EVENT
-        else DayEventType.HAS_EVENT
+    val currDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm"))
+    val dayEventType =  if (day==0 || events[day-1].isEmpty()) DayEventType.NO_EVENT
+                        else if(events[day - 1].maxOfOrNull { it.endDate }!! >= currDate) DayEventType.HAS_EVENT
+                        else DayEventType.FIN_EVENT
     Column(
         modifier = Modifier
             .padding(10.dp)
@@ -52,7 +52,7 @@ fun CalendarDay(
             .width(20.dp)
             .wrapContentHeight()
             .clickable {
-                if(dayEventType != DayEventType.NO_EVENT){
+                if (dayEventType != DayEventType.NO_EVENT) {
                     setSelectedDay(day)
                     setIsShow(true)
                 }

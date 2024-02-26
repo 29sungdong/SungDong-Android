@@ -2,9 +2,11 @@ package com.example.sungdongwalk.activities
 
 import android.Manifest
 import android.content.pm.PackageManager
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.core.app.ActivityCompat
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
@@ -26,13 +28,13 @@ class MainActivity : ComponentActivity() {
     private val LOCATION_REQUEST_CODE = 10001
     private lateinit var fusedLocationProviderClient: FusedLocationProviderClient
     private lateinit var locationManager: LocationManager
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
         fusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(this)
         locationSource = FusedLocationSource(this, LOCATION_REQUEST_CODE)
         locationManager = LocationManager(fusedLocationProviderClient)
-
 
         lifecycleScope.launch {
             lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED){
@@ -54,24 +56,6 @@ class MainActivity : ComponentActivity() {
         setContent {
             SungdongWalkTheme {
                 Nav()
-//                ModalDdg(
-//                    modalText = "필수 권한을 허용해주세요",
-//                    confirmText = "허용하기",
-//                    cancelText = "나가기",
-//                    confirmOnClick = {
-//                        ActivityCompat.requestPermissions(this,
-//                            arrayOf(
-//                                Manifest.permission.ACCESS_FINE_LOCATION,
-//                                Manifest.permission.ACCESS_COARSE_LOCATION,
-//                                Manifest.permission.INTERNET,
-//                                Manifest.permission.READ_EXTERNAL_STORAGE
-//                            ),
-//                            LOCATION_REQUEST_CODE
-//                        )
-//                    },
-//                    cancelOnClick = {finishAffinity()},
-//                    resourceId = R.drawable.ddg_with_map
-//                )
             }
         }
     }

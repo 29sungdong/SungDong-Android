@@ -1,5 +1,7 @@
 package com.example.sungdongwalk.components.event
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -18,25 +20,35 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import com.example.sungdongwalk.R
 import com.example.sungdongwalk.api.Dto
+import com.example.sungdongwalk.ui.theme.Gray200
 import com.example.sungdongwalk.ui.theme.Gray500
 import com.example.sungdongwalk.ui.theme.Lightblue100
 import com.example.sungdongwalk.ui.theme.SDblack
 import com.example.sungdongwalk.ui.theme.Typography
 import com.example.sungdongwalk.viewmodels.EventViewModel
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun EventModalItem(
     eventVo: Dto.SimpleEventVo,
     setIsShowWebsite: (Boolean) -> Unit
 ){
-    val date = eventVo.endDate.split('/',' ')
+    val endDateList = eventVo.endDate.split('/',' ')
+    val currDate = LocalDateTime.now().format(DateTimeFormatter.ofPattern("yyyy/MM/dd HH:mm"))
+
     Card(
         modifier = Modifier
-            .fillMaxWidth(),
+            .fillMaxWidth()
+            .clickable {
+                setIsShowWebsite(true)
+                EventViewModel.instance.updateUrl(eventVo.url)
+            },
         shape = RoundedCornerShape(8.dp),
         colors = CardDefaults.cardColors(
-            containerColor = Lightblue100
+            containerColor = if(currDate <= eventVo.endDate) Lightblue100 else Gray200
         )
     ) {
         Row(
@@ -55,7 +67,7 @@ fun EventModalItem(
                     color = SDblack
                 )
                 androidx.compose.material3.Text(
-                    text = "${eventVo.placeName}·${date[0]}월 ${date[1]}일 ${date[2]}까지",
+                    text = "${eventVo.placeName}·${endDateList[1]}월 ${endDateList[2]}일 ${endDateList[3]}까지",
                     style = Typography.bodyMedium,
                     textAlign = TextAlign.Start,
                     color = Gray500
@@ -65,11 +77,7 @@ fun EventModalItem(
                 painter = painterResource(id = R.drawable.ic_link),
                 contentDescription = null,
                 modifier = Modifier
-                    .size(30.dp)
-                    .clickable {
-                        setIsShowWebsite(true)
-                        EventViewModel.instance.updateUrl(eventVo.url)
-                    },
+                    .size(24.dp),
                 tint = Gray500
             )
         }

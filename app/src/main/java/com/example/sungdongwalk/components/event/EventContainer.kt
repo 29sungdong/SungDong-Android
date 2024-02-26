@@ -7,9 +7,9 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.ExperimentalLayoutApi
 import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentHeight
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.runtime.Composable
@@ -21,19 +21,16 @@ import com.example.sungdongwalk.api.Dto
 import com.example.sungdongwalk.api.retrofit.RetrofitManager
 import com.example.sungdongwalk.components.calendar.Calendar
 import com.example.sungdongwalk.screens.EventCategory
-import com.example.sungdongwalk.ui.theme.Gray200
-import java.time.LocalDate
+import com.example.sungdongwalk.ui.theme.Lightblue100
+import dev.chrisbanes.snapper.ExperimentalSnapperApi
 
-@OptIn(ExperimentalFoundationApi::class, ExperimentalLayoutApi::class)
+@OptIn(ExperimentalLayoutApi::class, ExperimentalFoundationApi::class,
+    ExperimentalSnapperApi::class
+)
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun EventContainer(
-    localDate: LocalDate,
-    setLocalDate: (LocalDate) -> Unit,
-    setIsShowModal: (Boolean) -> Unit,
-    setSelectedDay: (Int) -> Unit,
-    setIsLoading: (Boolean) -> Unit,
-    setIsShowWebsite: (Boolean) -> Unit
+    setIsLoading: (Boolean) -> Unit
 ){
     val (selectedCategory, setSelectedCategory) = remember{
         mutableStateOf(EventCategory.ALL)
@@ -41,24 +38,26 @@ fun EventContainer(
     val (events, setEvents) = remember{
         mutableStateOf<List<Dto.SimpleEventVo>>(listOf())
     }
+    val (isShowWebsite, setIsShowWebsite) = remember{
+        mutableStateOf(false)
+    }
     remember(selectedCategory){
         val categoryName = if(selectedCategory == EventCategory.ALL) null else selectedCategory.name
         RetrofitManager.instance.getEvents(categoryName, null, setEvents)
     }
-
     LazyColumn(
         modifier = Modifier
-            .fillMaxWidth()
-            .wrapContentHeight(),
+            .fillMaxSize()
+            .background(Lightblue100),
     ){
         item{
-            Calendar(localDate, setLocalDate, setIsShowModal, setSelectedDay)
+            Calendar(setIsShowWebsite)
         }
-        item {
+        stickyHeader {
             FlowRow(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .background(Gray200)
+                    .background(Lightblue100)
                     .padding(top = 10.dp, bottom = 22.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 maxItemsInEachRow = 4
@@ -74,7 +73,8 @@ fun EventContainer(
         }
         itemsIndexed(events){ index, event ->
             EventItem(setIsLoading, event, setIsShowWebsite)
-
         }
     }
+    EventWebView(isShowWebsite,setIsShowWebsite)
+
 }

@@ -1,5 +1,7 @@
 package com.example.sungdongwalk.components.event
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -28,6 +30,7 @@ import com.example.sungdongwalk.api.Dto
 import com.example.sungdongwalk.ui.theme.SDwhite
 import com.example.sungdongwalk.ui.theme.Typography
 
+@RequiresApi(Build.VERSION_CODES.O)
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
 fun EventModal(

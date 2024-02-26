@@ -38,7 +38,7 @@ fun EventItem(
     eventVo: Dto.SimpleEventVo,
     setIsShowWebsite: (Boolean) -> Unit
 ){
-    val date = eventVo.endDate.split('/',' ')
+    val endDate = eventVo.endDate.split('/',' ')
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -62,7 +62,7 @@ fun EventItem(
             modifier = Modifier
                 .fillMaxWidth()
                 .padding(bottom = 10.dp, end = 20.dp),
-            text = "${date[0]}월 ${date[1]}일 ${date[2]}까지",
+            text = "${endDate[1]}월 ${endDate[2]}일 ${endDate[3]}까지",
             style = Typography.bodyLarge,
             textAlign = TextAlign.End,
             color = Gray500
@@ -93,7 +93,7 @@ fun EventItem(
                         RetrofitManager.instance.getPaths(
                             placeId = eventVo.placeId,
                             placeName = eventVo.placeName,
-                            placeImg = "",//eventVo.image,
+                            placeImg = eventVo.placeImage,
                             xCoordinate = LocationViewModel.instance.location.value.longitude.toString(),
                             yCoordinate = LocationViewModel.instance.location.value.latitude.toString(),
                         )

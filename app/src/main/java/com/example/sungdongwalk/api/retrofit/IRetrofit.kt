@@ -2,7 +2,7 @@ package com.example.sungdongwalk.api.retrofit
 
 import com.example.sungdongwalk.api.Dto.*
 import com.example.sungdongwalk.api.utils.API.EVENTS
-import com.example.sungdongwalk.api.utils.API.EVENTS_CALENDER
+import com.example.sungdongwalk.api.utils.API.EVENTS_CALENDAR
 import com.example.sungdongwalk.api.utils.API.MISSIONS
 import com.example.sungdongwalk.api.utils.API.MISSIONS_ID
 import com.example.sungdongwalk.api.utils.API.PLACES
@@ -110,8 +110,8 @@ interface IRetrofit {
         @Query("category") category: String? = null,
         @Query("placeId") placeId: Int? = null,
     ): Response<EventListResponseDTO>
-    @GET(EVENTS_CALENDER)
-    suspend fun getEventsCalender(
+    @GET(EVENTS_CALENDAR)
+    suspend fun getEventsCalendar(
         @Query("startDate") startDate: String,
         @Query("endDate") endDate: String,
     ): Response<CalenderResponseDTO>

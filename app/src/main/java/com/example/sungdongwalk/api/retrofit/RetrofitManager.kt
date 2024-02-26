@@ -1,16 +1,20 @@
 package com.example.sungdongwalk.api.retrofit
 
 
+import android.os.Build
 import android.util.Log
+import androidx.annotation.RequiresApi
 import com.example.sungdongwalk.api.Dto
 import com.example.sungdongwalk.api.utils.API.BASE_URL
-import com.example.sungdongwalk.viewmodels.EventViewModel
+import com.example.sungdongwalk.viewmodels.LoginViewModel
 import com.example.sungdongwalk.viewmodels.PlaceViewModel
 import com.example.sungdongwalk.viewmodels.WalkViewModel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers.IO
 import kotlinx.coroutines.async
 import kotlinx.coroutines.launch
+import java.time.LocalDate
+import java.time.format.DateTimeFormatter
 
 class RetrofitManager {
 
@@ -22,6 +26,31 @@ class RetrofitManager {
     // 레트로핏 인터페이스 가져오기
     private val iRetrofit : IRetrofit? = RetrofitClient.getClient(BASE_URL)?.create(IRetrofit::class.java)
 
+    fun postUserLogin(
+        userName: String,
+        password: String,
+    ) = CoroutineScope(IO).launch {
+        try{
+            val request = CoroutineScope(IO).async { iRetrofit?.postUserLogin(
+                Dto.TokenRequestDTO(
+                    userName,
+                    password
+                )
+            ) }
+            val response = request.await()
+            when(response?.code()){
+                200 -> {
+                    val tokenResponse = response.body() ?: Dto.TokenResponseDTO(0,"")
+                    LoginViewModel.instance.updateUserLogin(tokenResponse)
+                }
+                else ->{
+                    Log.d(TAG, "Login Error code: ${response?.code()}")
+                }
+            }
+        }catch (e: Exception){
+            Log.d(TAG, e.toString())
+        }
+    }
     fun getPlaces(
         xCoordinate: String,
         yCoordinate: String
@@ -147,8 +176,11 @@ class RetrofitManager {
             val response = request.await()
             when(response?.code()){
                 200 -> {
-                    val events = response.body()?.events ?: listOf()
+                    val events = response.body()?.events!!
                     setEvents(events)
+                }
+                404 ->{
+                    setEvents(listOf())
                 }
                 else ->{
                     Log.d(TAG, "Error Code: ${response?.code()}")
@@ -158,20 +190,31 @@ class RetrofitManager {
             Log.d(TAG, e.toString())
         }
     }
-    fun getEventCalender(
-        startDate: String,
-        endDate: String,
+    @RequiresApi(Build.VERSION_CODES.O)
+    fun getEventCalendar(
+        newLocalDate: LocalDate,
+        setEvents: (List<List<Dto.SimpleEventVo>>)->Unit,
+        setLocalDate: ((LocalDate) -> Unit)?
     ) = CoroutineScope(IO).launch {
+        val startDate = "${newLocalDate.format(DateTimeFormatter.ofPattern("yyyy-MM"))}-01"
+        val endDate = "${newLocalDate.format(DateTimeFormatter.ofPattern("yyyy-MM"))}-${newLocalDate.lengthOfMonth()}"
         try{
-            val request = CoroutineScope(IO).async { iRetrofit?.getEventsCalender(startDate, endDate) }
+            val request = CoroutineScope(IO).async { iRetrofit?.getEventsCalendar(startDate, endDate) }
             val response = request.await()
             when(response?.code()){
                 200 -> {
-                    val newEvents = response.body()?.data?.map{it.events} ?: listOf()
-                    EventViewModel.instance.updateEvents(newEvents)
+                    val newEvents = response.body()?.data?.map{it.events} as ArrayList<List<Dto.SimpleEventVo>>
+                    if(newEvents.size < 31){
+                        for(i in 1..31-newEvents.size){
+                            newEvents.add(listOf())
+                        }
+                    }
+                    setEvents(newEvents)
+                    if(setLocalDate != null)
+                        setLocalDate(newLocalDate)
                 }
                 else -> {
-
+                    Log.d(TAG, "Calendar Error code: ${response?.code()}")
                 }
             }
         }catch (e: Exception){

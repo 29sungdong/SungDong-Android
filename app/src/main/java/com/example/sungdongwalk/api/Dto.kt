@@ -111,6 +111,7 @@ class Dto {
         val placeId: Int,
         val placeName: String,
         val name: String,
+        val placeImage: String,
         val endDate: String,
         val url: String
     )
