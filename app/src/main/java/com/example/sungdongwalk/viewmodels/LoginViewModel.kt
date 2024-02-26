@@ -19,11 +19,15 @@ class LoginViewModel: ViewModel() {
     private val _token = MutableStateFlow("")
     val token : StateFlow<String> = _token
 
+    private val _nickname = MutableStateFlow("이구성동")
+    val nickname : StateFlow<String> = _nickname
+
     fun updateUserLogin(tokenResponseDTO: Dto.TokenResponseDTO){
         val (updatedId, updatedToken) = tokenResponseDTO
         viewModelScope.launch {
             _id.emit(updatedId)
             _token.emit(updatedToken)
+            RetrofitManager.instance.getUserPlaces()
         }
     }
     init {

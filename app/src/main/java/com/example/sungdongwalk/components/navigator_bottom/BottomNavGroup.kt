@@ -90,13 +90,13 @@ fun BottomNav(navController: NavController){
                 .padding(paddingValue)
         ){
             composable(route = BottomNavScreens.HomeScreen.name){
-                HomeScreen(setIsLoading)
+                HomeScreen(navController,setIsLoading)
             }
             composable(route = BottomNavScreens.MapScreen.name){
                 MapScreen(setIsLoading)
             }
             composable(route = BottomNavScreens.EventScreen.name){
-                EventScreen(setIsLoading)
+                EventScreen(navController, setIsLoading)
             }
         }
         if(isLoading)

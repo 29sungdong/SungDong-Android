@@ -58,7 +58,7 @@ fun EventContainer(
                 modifier = Modifier
                     .fillMaxWidth()
                     .background(Lightblue100)
-                    .padding(top = 10.dp, bottom = 22.dp),
+                    .padding(top = 10.dp, bottom = 22.dp, start=10.dp, end=10.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly,
                 maxItemsInEachRow = 4
             ){

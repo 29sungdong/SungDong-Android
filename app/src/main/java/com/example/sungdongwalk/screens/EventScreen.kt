@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
+import androidx.navigation.NavController
 import com.example.sungdongwalk.components.NavigatorTop
 import com.example.sungdongwalk.components.NavigatorTopType
 import com.example.sungdongwalk.components.event.EventContainer
@@ -18,6 +19,7 @@ enum class EventCategory{
 @RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun EventScreen(
+    navController: NavController,
     setIsLoading: (Boolean) -> Unit
 ) {
     Column(
@@ -25,7 +27,7 @@ fun EventScreen(
             .fillMaxSize()
             .background(SDwhite)
     ){
-        NavigatorTop(NavigatorTopType.EVENT)
+        NavigatorTop(NavigatorTopType.EVENT, navController)
         EventContainer(setIsLoading)
     }
 }

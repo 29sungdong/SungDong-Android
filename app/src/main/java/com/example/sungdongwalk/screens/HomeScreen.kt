@@ -26,6 +26,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.sungdongwalk.R
 import com.example.sungdongwalk.api.Dto
 import com.example.sungdongwalk.components.CardLarge
@@ -40,7 +41,10 @@ import kotlinx.coroutines.launch
 @SuppressLint("StateFlowValueCalledInComposition")
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-fun HomeScreen(setIsLoading: (Boolean)->Unit) {
+fun HomeScreen(
+    navController: NavController,
+    setIsLoading: (Boolean)->Unit
+) {
     val (places, setPlaces) = remember{
         mutableStateOf(listOf<Dto.SimplePlaceVo>())
     }
@@ -56,7 +60,7 @@ fun HomeScreen(setIsLoading: (Boolean)->Unit) {
             .fillMaxSize()
             .background(SDwhite)
     ) {
-        NavigatorTop(type = NavigatorTopType.LOGO)
+        NavigatorTop(type = NavigatorTopType.LOGO, navController)
         Row(
             modifier = Modifier
                 .padding(vertical = 20.dp, horizontal = 30.dp)

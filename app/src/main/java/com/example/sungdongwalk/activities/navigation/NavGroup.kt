@@ -8,6 +8,9 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.sungdongwalk.components.navigator_bottom.BottomNav
+import com.example.sungdongwalk.screens.BadgeScreen
+import com.example.sungdongwalk.screens.FootprintScreen
+import com.example.sungdongwalk.screens.MypageScreen
 import com.example.sungdongwalk.screens.WalkScreen
 import com.example.sungdongwalk.viewmodels.WalkViewModel
 import kotlinx.coroutines.launch
@@ -34,6 +37,15 @@ fun Nav(){
         }
         composable(route = Screens.WalkScreen.name) {
             WalkScreen(navController)
+        }
+        composable(route = Screens.MypageScreen.name) {
+            MypageScreen(navController)
+        }
+        composable(route = Screens.BadgeScreen.name) {
+            BadgeScreen(navController)
+        }
+        composable(route = Screens.FootprintScreen.name) {
+            FootprintScreen(navController)
         }
     }
 

@@ -51,6 +51,21 @@ class RetrofitManager {
             Log.d(TAG, e.toString())
         }
     }
+    fun getUserPlaces() = CoroutineScope(IO).launch {
+        try{
+            val request = CoroutineScope(IO).async { iRetrofit?.getUserPlaces(LoginViewModel.instance.id.value)}
+            val response = request.await()
+            when(response?.code()){
+                200 -> {
+                    val userPlaces = response.body()?.places ?: listOf()
+                    PlaceViewModel.instance.updateUserPlace(userPlaces)
+                }
+                else -> {}
+            }
+        }catch(e: Exception){
+            Log.d(TAG, e.toString())
+        }
+    }
     fun getPlaces(
         xCoordinate: String,
         yCoordinate: String

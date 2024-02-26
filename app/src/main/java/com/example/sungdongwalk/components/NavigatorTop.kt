@@ -18,7 +18,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.unit.dp
+import androidx.navigation.NavController
 import com.example.sungdongwalk.R
+import com.example.sungdongwalk.activities.navigation.Screens
 import com.example.sungdongwalk.ui.theme.Gray500
 import com.example.sungdongwalk.ui.theme.SDwhite
 import com.example.sungdongwalk.ui.theme.Typography
@@ -27,7 +29,11 @@ enum class NavigatorTopType {
     LOGO, EVENT, MYPAGE
 }
 @Composable
-fun NavigatorTop(type: NavigatorTopType){
+fun NavigatorTop(
+    type: NavigatorTopType,
+    navController: NavController,
+    navText: String? = null
+){
     Row(
         modifier = Modifier
             .fillMaxWidth()
@@ -54,24 +60,26 @@ fun NavigatorTop(type: NavigatorTopType){
                     Icon(
                         modifier = Modifier
                             .size(20.dp)
-                            .clickable {  },
+                            .clickable { navController.navigateUp()  },
                         painter = painterResource(id = R.drawable.ic_back),
                         contentDescription = "back",
                     )
-                    Spacer(Modifier.width(15.dp))
+                    Spacer(Modifier.width(10.dp))
                     Text(
-                        text = "내 정보",
+                        text = navText!!,
                         style = Typography.headlineLarge,
                     )
                 }
 
             }
         }
-        Icon(
-            modifier = Modifier.clickable {  },
-            painter = painterResource(id = R.drawable.ic_profile),
-            contentDescription = "profile",
-            tint = Gray500,
-        )
+        if(type != NavigatorTopType.MYPAGE ){
+            Icon(
+                modifier = Modifier.clickable { navController.navigate(Screens.MypageScreen.name)},
+                painter = painterResource(id = R.drawable.ic_profile),
+                contentDescription = "profile",
+                tint = Gray500,
+            )
+        }
     }
 }

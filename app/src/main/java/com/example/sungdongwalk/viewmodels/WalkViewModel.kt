@@ -11,7 +11,7 @@ class WalkViewModel: ViewModel() {
     companion object{
         val instance = WalkViewModel()
     }
-
+    // 산책 목적지 데이터
     private val _destination = MutableStateFlow<List<String>>(listOf())
     val destination : StateFlow<List<String>> = _destination
 
@@ -25,7 +25,7 @@ class WalkViewModel: ViewModel() {
             _destination.emit(listOf())
         }
     }
-
+    // 산책 경로 데이터
     private val _shortestPath = MutableStateFlow<Dto.ShortestPathResponseDTO?>(null)
     val shortestPath : StateFlow<Dto.ShortestPathResponseDTO?> = _shortestPath
 
@@ -43,4 +43,6 @@ class WalkViewModel: ViewModel() {
             _paths.emit(newPath)
         }
     }
+    // 뱃지 데이터
+
 }
